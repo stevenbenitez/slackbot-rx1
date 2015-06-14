@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'json'
+require 'yaml'
 
 # token=XXXXXXXXXXXXXXXXXX
 # team_id=T0001
@@ -13,12 +14,14 @@ require 'json'
 # trigger_word=googlebot:
 
 post '/' do
+  config = YAML.load_file('slackbot.yml')
+
   token = params['token']
-  if token != 'n4CZSKfZqpO48YOLe0jW6HMH'
-    status 403
+  if token != config['token']
+    status 401
+    puts "Token doesn't match."
     return ''
   end
-
 
   team_id = params['team_id']
   team_domain = params['team_domain']
@@ -33,5 +36,5 @@ post '/' do
   response = "Hi, @#{user_name}!"
 
   content_type 'application/json'
-  JSON.generate({ :text => response })
+  JSON.generate({ :text => response, :link_names => 1 })
 end
