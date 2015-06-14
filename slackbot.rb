@@ -12,7 +12,7 @@ require 'json'
 # text=googlebot: What is the air-speed velocity of an unladen swallow?
 # trigger_word=googlebot:
 
-get '/' do
+post '/' do
   token = params['token']
   if token != 'n4CZSKfZqpO48YOLe0jW6HMH'
     status 403
